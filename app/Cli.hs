@@ -2,12 +2,16 @@
 module Cli ( Options(..), parseOptions) where
 
 import Options.Applicative
+import Options.Applicative.Builder (many)
+import Options.Applicative.Builder.Combinators (sepBy)
 
 data Options = Options
-  {
-    shift :: Int
-    , input :: String
-    , operation :: String
+  { shift :: [Int]
+  , input :: String
+  , operation :: String
+  , customCipher :: Maybe String
+  , inputFile :: Maybe String
+  , outputFile :: Maybe String
   } deriving (Show)
 
 parseOptions :: IO Options
@@ -33,7 +37,6 @@ optionsParser = Options
     <> short 'o'
     <> metavar "OPERATION"
     <> help "Operation to perform: encrypt or decrypt" )
-
   <*> optional (strOption
     ( long "custom-cipher"
     <> short 'c'
@@ -49,3 +52,4 @@ optionsParser = Options
     <> short 'u'
     <> metavar "OUTPUT_FILE"
     <> help "Output file for the encrypted or decrypted result" ))
+

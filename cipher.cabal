@@ -20,7 +20,8 @@ executable cipher
     build-depends:
         base ^>=4.16.4.0,
         cipher,
-        optparse-applicative
+        optparse-applicative,
+        split
 
     hs-source-dirs:   app
     default-language: Haskell2010
