@@ -13,7 +13,7 @@ data Options = Options
 parseOptions :: IO Options
 parseOptions = execParser $ info (optionsParser <**> helper) description
   where
-    description = fullDesc <> progDesc "A simple Caesar cipher CLI in Haskell"
+    description = fullDesc <> progDesc "A simple Caesar cipher CLI in Haskell :D"
     
 
 optionsParser :: Parser Options
@@ -33,3 +33,19 @@ optionsParser = Options
     <> short 'o'
     <> metavar "OPERATION"
     <> help "Operation to perform: encrypt or decrypt" )
+
+  <*> optional (strOption
+    ( long "custom-cipher"
+    <> short 'c'
+    <> metavar "CUSTOM_CIPHER"
+    <> help "Custom cipher string (26 unique uppercase letters)" ))
+  <*> optional (strOption
+    ( long "input-file"
+    <> short 'f'
+    <> metavar "INPUT_FILE"
+    <> help "Input file to encrypt or decrypt" ))
+  <*> optional (strOption
+    ( long "output-file"
+    <> short 'u'
+    <> metavar "OUTPUT_FILE"
+    <> help "Output file for the encrypted or decrypted result" ))
