@@ -1,21 +1,16 @@
 module Main where
 
-import MyLib (caesarDecipher, caesarCipher)
+import MyLib (caesarCipher)
 import Cli (Options(..), parseOptions)
 import Data.List.Split (splitOn)
 
 main :: IO ()
 main = do
   options <- parseOptions
-
-  let inputStr = input options
-      op = operation options
-      customShifts = case customCipher options of
-                      Just s -> map read $ splitOn " " s :: [Int]
-                      Nothing -> [shift options]
-
-  let result = if op == "encrypt"
-                  then caesarCipher inputStr customShifts
-                  else caesarDecipher inputStr customShifts
-
-  putStrLn result
+  let op = operation options
+      shifts = case customCipher options of
+                 Just s  -> map read (splitOn " " s)
+                 Nothing -> if null (shift options) then [0] else shift options
+      inputStr = input options
+      output = foldl (\acc shift -> caesarCipher op shift acc) inputStr shifts
+  putStrLn $ "result: " ++ output
