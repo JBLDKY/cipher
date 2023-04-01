@@ -1,16 +1,24 @@
 module Main where
 
-import qualified MyLib (someFunc, encrypt, decrypt)
+import qualified MyLib (encrypt, decrypt)
+import qualified Cli (Options(..), parseOptions)
 
 main :: IO ()
 main = do
-  let input = "HEllO WORLD"
-  let shift = 3
-  let encrypted = MyLib.encrypt shift input
-  putStrLn $ "Original text: " ++ input
-  putStrLn $ "Encrypted text: " ++ encrypted 
+  options <- Cli.parseOptions
+  let input = Cli.input options
+  let shift = Cli.shift options
+  let operation = Cli.operation options
 
-  putStrLn $ "Decrypting..."
-  let unshift = 26 - shift
-  let decrypted = MyLib.decrypt unshift encrypted
-  putStrLn $ "Decrypted text: " ++ decrypted 
+  case operation of
+    "encrypt" -> do
+      let encrypted = MyLib.encrypt shift input
+      putStrLn $ "Original text " ++ input
+      putStrLn $ "Encrypted text " ++ encrypted 
+    "decrypt" -> do
+      let decrypted = MyLib.decrypt shift input
+      putStrLn $ "Original text " ++ input
+      putStrLn $ "Encrypted text " ++ decrypted 
+    _ -> putStrLn "Invalid operation: Please use 'encrypt' or 'decrypt'."
+
+  

@@ -1,5 +1,5 @@
 module MyLib 
-    (someFunc,
+    (
       shiftChar,
       encrypt,
       decrypt
